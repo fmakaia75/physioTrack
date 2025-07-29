@@ -7,16 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, Clock, MapPin, Phone, Mail, FileText, Activity, BarChart2, FileDown } from 'lucide-react'
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts'
 import EditClientView from './edit-client-view';
 import { generateWeeklyPlanPDF } from './generatePlanning';
 import { getClientById, getProgByName } from '../data/MockData'; // Import mock data
-import { Client,Program, Session, } from './page';
+import { Client, Program, Session } from './coach-dashboard'
 import { calculateProgressFromSessions } from '../functions/users';
 
 // import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 interface ClientDetailViewProps {
-  clientId: number;
+  clientId: string;
 }
 
 export default function ClientDetailView({ clientId }: ClientDetailViewProps) {
@@ -28,7 +27,7 @@ export default function ClientDetailView({ clientId }: ClientDetailViewProps) {
   
   // Mock client data for simplicity
   useEffect(() => {
-    const fetchedClient = getClientById(clientId);
+    const fetchedClient = getClientById(parseInt(clientId));
     setClient(fetchedClient);
     if(fetchedClient){
       //if client has training already programmed
@@ -89,10 +88,10 @@ export default function ClientDetailView({ clientId }: ClientDetailViewProps) {
                       <Mail className="h-4 w-4 mr-2" />
                       <span>{client.email}</span>
                     </div>
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                       <Phone className="h-4 w-4 mr-2" />
                       <span>{client.phone}</span>
-                    </div>
+                    </div> */}
                     {program && program.length >0 ? (<div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-2" />
                       <span>Next Training: {new Date(program[0].date).toLocaleDateString()}</span>
@@ -171,7 +170,7 @@ export default function ClientDetailView({ clientId }: ClientDetailViewProps) {
                           <div className="flex items-center space-x-4">
                             <Calendar className="h-5 w-5 text-primary" />
                             <div>
-                              <p className="font-medium">{session.id}</p>
+                              <p className="font-medium">{session._id}</p>
                               <p className="text-sm text-gray-500">{new Date(session.date).toLocaleString()}</p>
                             </div>
                           </div>

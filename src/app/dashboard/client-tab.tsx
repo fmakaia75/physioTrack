@@ -11,7 +11,7 @@ import { Client, Program } from './coach-dashboard'
 type ClientTabProps= {
     setIsClientModalOpen:React.Dispatch<React.SetStateAction<boolean>>,
     clientsState: Client[],
-    setSeletedClient: React.Dispatch<React.SetStateAction<number | null>>,
+    setSeletedClient: React.Dispatch<React.SetStateAction<string | null>>,
     programsState: Program[]
 }
 
@@ -20,7 +20,7 @@ export default function ClientTab({clientsState, setIsClientModalOpen,setSeleted
     const filteredClients = clientsState.filter(client =>
         client.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
-
+    
     const handleOpenClient= ()=> {
         setIsClientModalOpen(true)
     }
@@ -49,7 +49,7 @@ export default function ClientTab({clientsState, setIsClientModalOpen,setSeleted
       <CardContent>
         <div className="space-y-4">
           {filteredClients.map((client) => (
-            <div key={client.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div key={client._id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div className="flex items-center space-x-4">
                 <Avatar>
                   <AvatarFallback>{client.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
@@ -70,7 +70,7 @@ export default function ClientTab({clientsState, setIsClientModalOpen,setSeleted
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setSeletedClient(client.id)}
+                  onClick={() => setSeletedClient(client._id)}
                 >
                   View Details
                 </Button>

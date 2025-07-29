@@ -14,9 +14,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PlusCircle, Edit, Search, UserPlus } from 'lucide-react'
 import { Input } from "@/components/ui/input"
-import ScheduleView from './schedule-tab3'
-import { ProgramFormModal } from '@/components/ProgramFormModal'
-import { Client, Program } from '@/app/dashboard/page'
+import { Client, Program } from './coach-dashboard'
 
 type ScheduleTabProps = {
     // setShowAddClient: React.Dispatch<React.SetStateAction<boolean>>
@@ -53,7 +51,7 @@ export default function ScheduleTab({
 
     const filteredPrograms = useMemo(() => {
         return programsState.filter(program =>
-            ((!selectedType || program.type === selectedType) &&
+        ((!selectedType || program.type === selectedType) &&
             (!selectedClient || program.clients.includes(selectedClient)) &&
             program.name.toLowerCase().includes(searchQuery.toLowerCase()))
         )
@@ -102,7 +100,7 @@ export default function ScheduleTab({
                             <SelectContent>
                                 <SelectItem value="all">All Clients</SelectItem>
                                 {clientsState.map(client => (
-                                    <SelectItem key={client.id} value={client.name}>{client.name}</SelectItem>
+                                    <SelectItem key={client._id} value={client.name}>{client.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -111,7 +109,7 @@ export default function ScheduleTab({
                 <CardContent>
                     <div className="space-y-4">
                         {filteredPrograms.map(program => (
-                            <Card key={program.id}>
+                            <Card key={program._id}>
                                 <CardContent className="flex justify-between items-center p-4">
                                     <div>
                                         <h3 className="font-semibold">{program.name}</h3>
@@ -120,11 +118,19 @@ export default function ScheduleTab({
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <div className="flex -space-x-2">
-                                            {program.clients.map((client, index) => (
-                                                <Avatar key={index} className="border-2 border-background">
-                                                    <AvatarFallback>{client.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                                                </Avatar>
-                                            ))}
+                                            {program.clients.map((clientId) => (
+                                                clientsState.map(client => {
+                                                    if (clientId == client._id) {
+                                                        return (
+                                                            <Avatar key={clientId} className="border-2 border-background">
+                                                                <AvatarFallback>{client.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                                                            </Avatar>
+                                                        )
+                                                    }
+                                                }
+                                                )
+                                            )
+                                            )}
                                         </div>
                                         <Button
                                             variant="outline"

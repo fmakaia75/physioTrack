@@ -38,10 +38,10 @@ type ClientFormModalProps = {
 
 export function ClientFormModal({ isOpen, onClose, onSaveClient, initialClient, programs,clients, setProgramsState,fromModal, setClientsState  }: ClientFormModalProps) {
   const emptyClient: Client = {
-    id: "0",
+    _id: "0",
     name: '',
     email: '',
-    coach: getCoachData()!.id,
+    coach: getCoachData()!._id,
     currentPrograms: [],
   }
 
@@ -60,17 +60,17 @@ export function ClientFormModal({ isOpen, onClose, onSaveClient, initialClient, 
     onSaveClient(client)
     // Update programs with the client
     const updatedPrograms = programs.map((program) => {
-      if (client.currentPrograms!.includes(program.name)) {
+      if (client.currentPrograms!.includes(program._id)) {
         // Add client if not already present
         return {
           ...program,
-          clients: [...new Set([...program.clients, client.name])],
+          clients: [...new Set([...program.clients, client._id])],
         };
       } else {
         // Remove client if they are no longer associated
         return {
           ...program,
-          clients: program.clients.filter((name) => name !== client.name),
+          clients: program.clients.filter((id) => id !== client._id),
         };
       }
     });
@@ -86,7 +86,7 @@ export function ClientFormModal({ isOpen, onClose, onSaveClient, initialClient, 
   }
   const handleSaveProgram = (newProgram: Program) => {
     setProgramsState((prev) => [...prev, newProgram]); // Add program
-    setClient((prev) => ({ ...prev, programs: [...prev.currentPrograms!, newProgram.id] })); // Associate program
+    setClient((prev) => ({ ...prev, currentPrograms: [...prev.currentPrograms!, newProgram._id] })); // Associate program
     // setShowProgramModal(false); // Close ProgramFormModal only
   };
   return (
@@ -171,20 +171,20 @@ export function ClientFormModal({ isOpen, onClose, onSaveClient, initialClient, 
             </div>
             <ScrollArea className="h-[300px] border rounded-md p-4">
               {programs.map((program) => (
-                <div key={program.id} className="flex items-center space-x-2 mb-2">
+                <div key={program._id} className="flex items-center space-x-2 mb-2">
                   <Checkbox
-                    id={`program-${program.id}`}
-                    checked={client.currentPrograms!.includes(program.name)}
+                    id={`program-${program._id}`}
+                    checked={client.currentPrograms!.includes(program._id)}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setClient(prev => ({ ...prev, programs: [...prev.currentPrograms!, program.name] }))
+                        setClient(prev => ({ ...prev, currentPrograms: [...prev.currentPrograms!, program._id] }))
                       } else {
-                        setClient(prev => ({ ...prev, programs: prev.currentPrograms!.filter(name => name !== program.name) }))
+                        setClient(prev => ({ ...prev, currentPrograms: prev.currentPrograms!.filter(c => c !== program._id) }))
                       }
                     }}
                   />
                   <label
-                    htmlFor={`program-${program.id}`}
+                    htmlFor={`program-${program._id}`}
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     {program.name}

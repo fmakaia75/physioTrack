@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, Users, BarChart, Dumbbell } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Calendar, Users, BarChart, Dumbbell, BarChart2 } from 'lucide-react'
 import { AnimatedBackground } from '@/components/ui/animated-background'
 
 export default function Home() {
@@ -12,7 +12,8 @@ export default function Home() {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <span className="text-2xl font-bold text-primary">PhysioTrack</span>
+                <BarChart2 className="h-6 w-6 mr-2 text-primary" />
+                <span className="text-2xl font-bold text-primary">XTrack</span>
               </div>
             </div>
             <div className="flex items-center">
@@ -35,6 +36,7 @@ export default function Home() {
           // pathColor="rgb(59, 130, 246)"
           
           pathColor="rgb(115,194,251)"
+          // pathColor="rgb(247,112,40)"
           // pathColor="rgb(71, 73, 114)"
           pathOpacity={0.02}
         >
@@ -43,13 +45,16 @@ export default function Home() {
               <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
                 <div>
                   <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-                    Empower Your <span className="text-primary">Physiotherapy Practice</span>
+                    {/* Empower Your <span className="text-primary">Physiotherapy Practice</span> */}
+                    Empower Your
+                    Training
+                    Workflow
                   </h1>
                   <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 dark:text-gray-300 sm:text-xl md:mt-5 md:max-w-3xl">
-                    PhysioTrack helps physiotherapists manage patients, schedule appointments, and track progress effortlessly.
+                    XTrack helps specialists manage Athletes, schedule trainings, and track progress effortlessly.
                   </p>
                   <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
-                    <div className="rounded-md shadow">
+                    <div className="rounded-md ">
                       <Button asChild size="lg">
                         <Link href="/signup">Get Started</Link>
                       </Button>

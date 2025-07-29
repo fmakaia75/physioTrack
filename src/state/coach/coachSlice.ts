@@ -4,7 +4,7 @@ import physioSlice from "../physio/physioSlice";
 import { AppDispatch, RootState, useAppSelector } from "../store";
 
 interface CoachInfo {
-  id: string;
+  _id: string;
   name: string;
   email: string;
 }

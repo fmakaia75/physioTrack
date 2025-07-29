@@ -17,7 +17,7 @@ import { ObjectId } from "bson";
 
 
 export type Client = {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   // phone: string;
@@ -42,7 +42,7 @@ export type Session = {
 
 
 export type Program = {
-  id: string;
+  _id: string;
   name: string;
   type: string;
   coach: string;
@@ -110,7 +110,7 @@ export default function CoachDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard")
   const [showAddClient, setShowAddClient] = useState(false)
   const [clientsState, setClientsState] = useState<Client[]>(clients)
-  const [selectedClientId, setSelectedClientId] = useState<number | null>(null)
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null)
 
   const [isProgramModalOpen, setIsProgramModalOpen] = useState(false)
   const [programsState, setProgramsState] = useState<Program[]>(programs)
@@ -135,14 +135,15 @@ export default function CoachDashboard() {
   // ]
 
   const handleSaveClient = (newClient: Client) => {
-    if (newClient.id === "0") {
+    console.log("we are here")
+    if (newClient._id === "0") {
       // This is a new client
      
-      newClient.id = new ObjectId().toString()
+      newClient._id = new ObjectId().toString()
       setClientsState((prev) => [...prev, newClient])
     } else {
       // This is an existing client being updated
-      setClientsState((prev) => prev.map((c) => (c.id === newClient.id ? newClient : c)))
+      setClientsState((prev) => prev.map((c) => (c._id === newClient._id ? newClient : c)))
     }
     store.dispatch(setUpdate({
       athletes: [newClient],
@@ -154,16 +155,17 @@ export default function CoachDashboard() {
   }
 
   const handleSaveProgram = (updatedProgram: Program) => {
-    if (updatedProgram.id === "0") {
+    if (updatedProgram._id === "0") {
       // This is a new program
       const newId = new ObjectId().toString();
-      updatedProgram.id = newId
+      updatedProgram._id = newId
       
       setProgramsState((prev) => [...prev, updatedProgram])
     } else {
       // This is an existing program being updated
-      setProgramsState((prev) => prev.map((p) => (p.id === updatedProgram.id ? updatedProgram : p)))
+      setProgramsState((prev) => prev.map((p) => (p._id === updatedProgram._id ? updatedProgram : p)))
     }
+
     store.dispatch(setUpdate({
       athletes: [],
       programs: [updatedProgram],
@@ -182,7 +184,7 @@ export default function CoachDashboard() {
       <aside className="w-64 bg-white dark:bg-gray-800 p-4 hidden md:block">
         <div className="flex items-center mb-6">
           <BarChart2 className="h-6 w-6 mr-2 text-primary" />
-          <span className="font-bold text-xl">Sportify</span>
+          <span className="font-bold text-xl">XTrack</span>
         </div>
         <nav className="space-y-2">
           <Link

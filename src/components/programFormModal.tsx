@@ -48,10 +48,10 @@ type ProgramFormModalProps = {
 
 export function ProgramFormModal({ isOpen, onClose, onSaveProgram, clients, initialProgram, initialStep, onSaveClient, programs, setProgramsState, fromModal, setClientsState }: ProgramFormModalProps) {
   const emptyProgram: Program = {
-    id: "0",
+    _id: "0",
     name: '',
     type: '',
-    coach: getCoachData()!.id,
+    coach: getCoachData()!._id,
     durationWeeks: 1,
     sessions: [],
     clients: [],
@@ -101,20 +101,20 @@ export function ProgramFormModal({ isOpen, onClose, onSaveProgram, clients, init
     onSaveProgram(program)
     // Update the clients' programs field
   const updatedClients = clients.map(client => {
-    if (program.clients.includes(client.name)) {
+    if (program.clients.includes(client._id)) {
       // Add the program ID to the client's programs array if it's not already there
-      if (!client.currentPrograms!.includes(program.name)) {
+      if (!client.currentPrograms!.includes(program._id)) {
         return {
           ...client,
-          programs: [...client.currentPrograms!, program.name],
+          programs: [...client.currentPrograms!, program._id],
         };
       }
     } else {
       // Remove the program ID from the client's programs array if it's no longer associated
-      if (client.currentPrograms!.includes(program.name)) {
+      if (client.currentPrograms!.includes(program._id)) {
         return {
           ...client,
-          programs: client.currentPrograms!.filter(progId => progId !== program.name),
+          programs: client.currentPrograms!.filter(progId => progId !== program._id),
         };
       }
     }
@@ -285,20 +285,20 @@ export function ProgramFormModal({ isOpen, onClose, onSaveProgram, clients, init
           <ScrollArea className="h-[400px]">
             <div className="grid gap-4 py-4">
               {clients.map((client) => (
-                <div key={client.id} className="flex items-center space-x-2">
+                <div key={client._id} className="flex items-center space-x-2">
                   <Checkbox
-                    id={`client-${client.id}`}
-                    checked={program.clients.includes(client.name)}
+                    id={`client-${client._id}`}
+                    checked={program.clients.includes(client._id)}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setProgram(prev => ({ ...prev, clients: [...prev.clients, client.name] }))
+                        setProgram(prev => ({ ...prev, clients: [...prev.clients, client._id] }))
                       } else {
-                        setProgram(prev => ({ ...prev, clients: prev.clients.filter(c => c !== client.name) }))
+                        setProgram(prev => ({ ...prev, clients: prev.clients.filter(c => c !== client._id) }))
                       }
                     }}
                   />
                   <label
-                    htmlFor={`client-${client.id}`}
+                    htmlFor={`client-${client._id}`}
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     {client.name}

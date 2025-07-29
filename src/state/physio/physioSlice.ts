@@ -58,7 +58,6 @@ updateListenerMiddleWare.startListening.withTypes<RootState, AppDispatch>()({
         
         try {
             listenerApi.dispatch(setLoading());
-
             const response = await fetch("/api/test-insert", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
